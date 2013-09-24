@@ -2,7 +2,7 @@
 /*
   Plugin Name: Easy Responsive Carousel
   Plugin URI: http://vocecommunications.com
-  Description: Adds an Image Carousel MUST have bootstrap 2.3.2
+  Description: Adds an Image Carousel MUST have bootstrap 2.3.2 - this ONLY works with images and they must all be the same size
   Version: 0.1.0
   Author: matstars, voceplatforms
   Author URI: http://vocecommunications.com
@@ -21,15 +21,15 @@ class easy_carousel {
 
 	public static function register_post_type(){
 		$labels = array(
-			'name'               => 'easy_carousel',
-			'singular_name'      => 'easy_carousel',
+			'name'               => 'Easy Carousel',
+			'singular_name'      => 'Easy Carousel',
 			'add_new'            => 'Add New',
 			'add_new_item'       => 'Add New Carousel',
 			'edit_item'          => 'Edit Carousel',
 			'new_item'           => 'New Carousel',
-			'all_items'          => 'All Carousel',
+			'all_items'          => 'All Carousels',
 			'view_item'          => 'View Carousel',
-			'search_items'       => 'Search Carousel',
+			'search_items'       => 'Search Carousels',
 			'not_found'          => 'No Carousels found',
 			'not_found_in_trash' => 'No Carousels found in Trash',
 			'parent_item_colon'  => '',
@@ -56,8 +56,12 @@ class easy_carousel {
 			'pause' => 'false',
 			'effect' => '',
 			'orderby' => 'menu_order',
-			'order' => 'asc'
+			'order' => 'asc',
+			'display_mobile' => true
 			), $atts) );
+		if ( !$display_mobile && wp_is_mobile() ) {
+			return '';	
+		} 
 		static::$incrementer++;
 		$script_html = $html = $pause_att = '';
 		$counter = 0;
