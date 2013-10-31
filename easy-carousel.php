@@ -2,32 +2,58 @@
 /*
   Plugin Name: Easy Responsive Carousel
   Plugin URI: http://matgargano.com
-  Description: Adds an Image Carousel MUST have bootstrap 2.3.2 - this ONLY works with images and they must all be the same size
-  Version: 0.1.1
+  Description: Adds an Image Carousel *Note* your theme MUST include & enqueue bootstrap 2.3.2+ (including 3+!) - as of right now, this ONLY works with images and they must all be the same size
+  Version: 0.2
   Author: matstars
   Author URI: http://matgargano.com
   License: GPL2
  */
 
 
+/**
+ * Class easy_carousel
+ */
 class easy_carousel {
 
-	const POST_TYPE = 'easy_carousel';
-	const FILE_NAME = 'easy-carousel';
-	const SHORTCODE = 'easy_carousel';
-	static $incrementer = 0;
-	static $ver = '1.0';
-	static $add_script;
+	/**
+	 * @var string
+	 */
+	public static $post_type = 'easy_carousel';
+	/**
+	 * @var string
+	 */
+	public static $file_name = 'easy-carousel';
+	/**
+	 * @var string
+	 */
+	public static $shortcode = 'easy_carousel';
+	/**
+	 * @var int
+	 */
+	public static $incrementer = 0;
+	/**
+	 * @var string
+	 */
+	public static $ver = '0.2';
+	/**
+	 * @var
+	 */
+	public static $add_script;
 
+	/**
+	 *
+	 */
 	public static function init(){
-		$__CLASS__ = __CLASS__;
 		add_action( 'init', array( __CLASS__, 'register_post_type' ) );
-		add_shortcode( $__CLASS__::SHORTCODE, array( __CLASS__, 'shortcode' ) );
+		add_shortcode( self::$shortcode, array( __CLASS__, 'shortcode' ) );
 		add_action( 'init', array( __CLASS__, 'register_script' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'print_script' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_stylesheet' ) );
 	}
 
+	/**
+	 *
+	 */
 	public static function register_post_type(){
 		$labels = array(
 			'name'               => 'Easy Carousel',
@@ -54,12 +80,18 @@ class easy_carousel {
 			'supports'           => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 		);
 
-		$__CLASS__ = __CLASS__;
-		register_post_type( $__CLASS__::POST_TYPE, $args );
+		register_post_type( self::$post_type, $args );
 	}
 
+	/**
+	 * @param $atts
+	 *
+	 * @return string
+	 */
 	public static function shortcode( $atts ) {
 		self::$add_script = true;
+		/* initialize variables */
+		$id = $timeout = $pause = $effect = $orderby = $order = $display_mobile = $show_content = '';
 		extract( shortcode_atts( array(
 			'id' => -1,
 			'timeout' => 2000,
@@ -70,30 +102,30 @@ class easy_carousel {
 			'display_mobile' => true,
 			'show_content' => true
 			), $atts) );
-		if ( !$display_mobile && wp_is_mobile() ) {
-			return '';	
+		if ( ! $display_mobile && wp_is_mobile() ) {
+			return false;
 		} 
 		static::$incrementer++;
 		$html = $pause_att = '';
 		$counter = 0;
-		if ( $effect != '' ) {
+		if ( $effect ) {
 			$effect = ' ' . $effect;
 		}
-		if ( !$pause ) {
+		if ( ! $pause ) {
 			$pause_att = ' "pause" : false ';
 		}
 		if ( $id == -1 || !get_post( $id ) ) {
-			return;
+			return false;
 		}
-		$__CLASS__ = __CLASS__;
-		if ( !$__CLASS__::POST_TYPE == get_post_type( $id ) ) {
-			return;
+		if ( ! self::$post_type == get_post_type( $id ) ) {
+			return false;
 		}
 
 		$html .= '<div class="easy-responsive-carousel carousel' . $effect . '" id="carousel-' . static::$incrementer . '">';
 		$html .= '<div class="carousel-inner">';
 		
-		$children = get_posts( array( 'post_type' => $__CLASS__::POST_TYPE, 'post_parent' => $id, 'orderby' => $orderby, 'order' => $order ) );
+		$children = get_posts( array( 'post_type' => self::$post_type, 'post_parent' => $id, 'orderby' => $orderby, 'order' => $order ) );
+
 		foreach( $children as $post ) : setup_postdata($post);
 
 			$counter++;
@@ -109,9 +141,8 @@ class easy_carousel {
 				$html .= '</div>';
 			}
 			$html .= '</div>';
-		endforeach;
-		wp_reset_postdata();
-
+            wp_reset_postdata();
+        endforeach;
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<script>';
@@ -121,22 +152,30 @@ class easy_carousel {
 		return $html;
 	}
 
+	/**
+	 *
+	 */
 	static function register_script() {
-		$__CLASS__ = __CLASS__;
-		wp_register_script( $__CLASS__::FILE_NAME, plugins_url('js/' . $__CLASS__::FILE_NAME .'.js', __FILE__), array('jquery'), self::$ver, true );
+
+		wp_register_script( self::$file_name, plugins_url('js/' . self::$file_name .'.js', __FILE__), array('jquery'), self::$ver, true );
 	}
 
+	/**
+	 *
+	 */
 	static function print_script() {
 		if ( ! self::$add_script )
 			return;
 		wp_print_scripts( 'easy-carousel' );
 	}
 
+	/**
+	 *
+	 */
 	static function enqueue_stylesheet(){
 		global $post;
-		$__CLASS__ = __CLASS__;
-		if ( !empty( $post ) && has_shortcode( $post->post_content, $__CLASS__::SHORTCODE ) ){
-			wp_enqueue_style( $__CLASS__::FILE_NAME, plugins_url('css/' . $__CLASS__::FILE_NAME .'.css', __FILE__), false, self::$ver );
+		if ( !empty( $post ) && has_shortcode( $post->post_content, self::$shortcode ) ){
+			wp_enqueue_style( self::$file_name, plugins_url('css/' .self::$file_name .'.css', __FILE__), false, self::$ver );
 			
 		}
 	}
@@ -151,6 +190,12 @@ easy_carousel::init();
 /* if < WP 3.6 let's add in has_shortcode */
 
 if ( !function_exists('has_shortcode') ) {
+	/**
+	 * @param $content
+	 * @param $tag
+	 *
+	 * @return bool
+	 */
 	function has_shortcode( $content, $tag ) {
          if ( shortcode_exists( $tag ) ) {
                  preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
