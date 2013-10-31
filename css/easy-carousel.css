@@ -1,0 +1,44 @@
+.easy-responsive-carousel a.button.pause,
+.easy-responsive-carousel a.button.pause {
+  font-size: 17px;
+}
+.easy-responsive-carousel.fade {
+  opacity: 1;
+}
+.easy-responsive-carousel.fade .item.active {
+  opacity: 1;
+  -moz-transition: opacity ease-in-out 0.7s;
+  -o-transition: opacity ease-in-out 0.7s;
+  -webkit-transition: opacity ease-in-out 0.7s;
+  transition: opacity ease-in-out 0.7s;
+  z-index: 2;
+}
+.easy-responsive-carousel.fade .carousel-inner .item:first-child {
+  top: auto;
+  position: relative;
+}
+.easy-responsive-carousel.fade .item {
+  -moz-transition: opacity ease-in-out 0.7s;
+  -o-transition: opacity ease-in-out 0.7s;
+  -webkit-transition: opacity ease-in-out 0.7s;
+  transition: opacity ease-in-out 0.7s;
+  left: 0 !important;
+  opacity: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  display: block !important;
+  z-index: 1;
+}
+.easy-responsive-carousel .controls {
+  float: right;
+}
+.easy-responsive-carousel .play {
+  display: none;
+}
+.easy-responsive-carousel a.button {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+  font-size: 20px;
+}
