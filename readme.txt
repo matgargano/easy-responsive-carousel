@@ -14,9 +14,12 @@ Creates a post type called Easy Carousel. It's hierarchical - parent post is the
 
 N.B. Your theme must have 'post-thumbnails' enabled ( see http://codex.wordpress.org/Function_Reference/add_theme_support for more information ).
 
-Adds a shortcode [easy_carousel] with the optional variables:
+Adds a shortcode [easy_carousel id=N ] with the required variables:
 
 - id => ID of the parent Easy Carousel Post
+
+...and the optional variables:
+
 - timeout => milliseconds to pause in between slides
 - pause => if set to true - the slideshow will pause on hover; set to false - the slideshow does not pause on hover.
 - effect => "slide" or "fade"
