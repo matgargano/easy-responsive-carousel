@@ -94,14 +94,14 @@ class easy_carousel {
 		$id = $timeout = $pause = $effect = $orderby = $order = $display_mobile = $show_content = '';
 		extract( shortcode_atts( array(
 			'id' => -1,
-			'timeout' => 2000,
+			'timeout' => 5000,
 			'pause' => false,
 			'effect' => '',
 			'orderby' => 'menu_order',
 			'order' => 'asc',
 			'display_mobile' => true,
 			'show_content' => true
-			), $atts) );
+		), $atts) );
 		if ( ! $display_mobile && wp_is_mobile() ) {
 			return false;
 		} 
@@ -135,7 +135,7 @@ class easy_carousel {
 			}
 			$html .= '<div class="item' . $active . '">';
 			$html .= get_the_post_thumbnail( $post->ID, $size = 'full' );
-			if ( $show_content ) {
+			if ( $show_content && get_the_content() ) {
 				$html .= '<div class="content">';
 				$html .= get_the_content();
 				$html .= '</div>';
@@ -208,5 +208,111 @@ if ( !function_exists('has_shortcode') ) {
                  }
          }
          return false;
+	}
+}
+
+
+add_action( 'load-post.php', 'post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'post_meta_boxes_setup' );
+
+function post_meta_boxes_setup() {
+
+	/* Add meta boxes on the 'add_meta_boxes' hook. */
+	add_action( 'add_meta_boxes', 'add_post_meta_boxes' );
+
+	/* Save post meta on the 'save_post' hook. */
+	add_action( 'save_post', 'save_post_class_meta', 10, 2 );
+}
+
+function add_post_meta_boxes() {
+
+	add_meta_box(
+		'post-class',			// Unique ID
+		esc_html__( 'Post Class', 'example' ),		// Title
+		'post_class_meta_box',		// Callback function
+		'post',					// Admin page (or post type)
+		'normal',					// Context
+		'default'					// Priority
+	);
+}
+
+function post_class_meta_box( $post, $box ) { ?>
+
+	<?php wp_nonce_field( basename( __FILE__ ), 'post_class_nonce' ); ?>
+
+	<p>
+		<label for="post-class"><?php _e( "IGNORE THIS PLEASE, SORRY.", 'example' ); ?></label>
+		<br />
+		<input class="widefat" type="text" name="post-class" id="post-class" value="<?php echo esc_attr( get_post_meta( $post->ID, 'post_class', true ) ); ?>" size="30" />
+	</p>
+	<p>
+		<label for="content-color"><?php _e( "What color? (IGNORE THIS PLEASE, SORRY)", 'example' ); ?></label>
+		<br />
+		<input class="widefat" type="text" name="content-color" id="content-color" value="<?php echo esc_attr( get_post_meta( $post->ID, 'content_color', true ) ); ?>" size="30" />
+	</p>
+<?php }
+
+
+function save_post_class_meta( $post_id, $post ) {
+
+	/* Verify the nonce before proceeding. */
+	if ( !isset( $_POST['post_class_nonce'] ) || !wp_verify_nonce( $_POST['post_class_nonce'], basename( __FILE__ ) ) )
+		return $post_id;
+
+	/* Get the post type object. */
+	$post_type = get_post_type_object( $post->post_type );
+
+	/* Check if the current user has permission to edit the post. */
+	if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
+		return $post_id;
+
+	/* Get the posted data and sanitize it for use as an HTML class. */
+
+	$new_meta_value = ( isset( $_POST['post-class'] ) ? sanitize_html_class( $_POST['post-class'] ) : '' );
+	/* Get the meta value of the custom field key. */
+	$meta_value = get_post_meta( $post_id, 'post_class', true );
+
+	/* If a new meta value was added and there was no previous value, add it. */
+	if ( $new_meta_value && '' == $meta_value ){
+		add_post_meta( $post_id, 'post_class', $new_meta_value, true );
+	}
+
+	/* If the new meta value does not match the old value, update it. */
+	elseif ( $new_meta_value && $new_meta_value != $meta_value ){
+		update_post_meta( $post_id, 'post_class', $new_meta_value );
+	}
+
+	/* If there is no new meta value but an old value exists, delete it. */
+	elseif ( '' == $new_meta_value && $meta_value ) {
+		delete_post_meta( $post_id, 'post_class', $meta_value );
+	}
+
+
+	$new_meta_value = ( isset( $_POST['content-color'] ) ? sanitize_color( $_POST['content-color'] ) : '' );
+	/* Get the meta value of the custom field key. */
+	$meta_value = get_post_meta( $post_id, 'content_color', true );
+
+	/* If a new meta value was added and there was no previous value, add it. */
+	if ( $new_meta_value && '' == $meta_value ){
+		add_post_meta( $post_id, 'content_color', $new_meta_value, true );
+	}
+
+	/* If the new meta value does not match the old value, update it. */
+	elseif ( $new_meta_value && $new_meta_value != $meta_value ){
+		update_post_meta( $post_id, 'content_color', $new_meta_value );
+	}
+
+	/* If there is no new meta value but an old value exists, delete it. */
+	elseif ( '' == $new_meta_value && $meta_value ) {
+		delete_post_meta( $post_id, 'content_color', $meta_value );
+	}
+}
+
+
+if ( ! function_exists( 'sanitize_color' ) ) {
+	function sanitize_color( $hex_color ) {
+		if( preg_match( '/^#[a-f0-9]{6}$/i', $hex_color ) )
+			return $hex_color;
+		return '#000000';
 	}
 }

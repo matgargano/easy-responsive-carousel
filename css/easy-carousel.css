@@ -2,6 +2,29 @@
 .easy-responsive-carousel a.button.pause {
   font-size: 17px;
 }
+.easy-responsive-carousel .item {
+  float: left;
+}
+.easy-responsive-carousel .item.active .content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1em .5em;
+}
+.easy-responsive-carousel .controls {
+  float: right;
+}
+.easy-responsive-carousel .play {
+  display: none;
+}
+.easy-responsive-carousel a.button {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+  font-size: 20px;
+}
 .easy-responsive-carousel.fade {
   opacity: 1;
 }
@@ -29,16 +52,4 @@
   width: 100%;
   display: block !important;
   z-index: 1;
-}
-.easy-responsive-carousel .controls {
-  float: right;
-}
-.easy-responsive-carousel .play {
-  display: none;
-}
-.easy-responsive-carousel a.button {
-  cursor: pointer;
-  font-weight: bold;
-  color: #000;
-  font-size: 20px;
 }

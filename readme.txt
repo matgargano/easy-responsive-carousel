@@ -21,7 +21,7 @@ Adds a shortcode [easy_carousel id=N ] with the required variables:
 ...and the optional variables:
 
 - timeout => milliseconds to pause in between slides
-- pause => if set to true - the slideshow will pause on hover; set to false - the slideshow does not pause on hover.
+- pause => if set to true - the slideshow will pause on hover; set to false - the carousel does not pause on hover.
 - effect => "slide" or "fade"
 - orderby => what to order the children posts
 - order => direction to order the posts
