@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Easy_carousel_admin
+ */
 class Easy_carousel_admin {
 
 
@@ -25,6 +28,14 @@ class Easy_carousel_admin {
 	public static $post_type;
 
 
+	/**
+	 *
+	 * Initialize plugin
+	 *
+	 * @return void
+	 *
+	 */
+
 	public static function init(){
 		self::$post_type = Easy_carousel::$post_type;
 		add_action( 'load-post.php', array( __CLASS__, 'post_meta_boxes_setup' ) );
@@ -37,7 +48,7 @@ class Easy_carousel_admin {
 			),
 			[
 				'name'=>'content_color',
-				'sanitize'=>'sanitize_color',
+				'sanitize'=>'sanitize_hex_color',
 				'description'=>'Caption background color'
 			],
 
@@ -45,6 +56,13 @@ class Easy_carousel_admin {
 		);
 	}
 
+	/**
+	 *
+	 * Set up metaboxes
+	 *
+	 * @return void
+	 *
+	 */
 	public static function post_meta_boxes_setup() {
 
 		/* Add meta boxes on the 'add_meta_boxes' hook. */
@@ -54,10 +72,25 @@ class Easy_carousel_admin {
 		add_action( 'save_post', array( __CLASS__, 'save_post_class_meta' ), 10, 2 );
 	}
 
+	/**
+	 *
+	 * Add meta boxes
+	 *
+	 * @return void
+	 *
+	 */
 	public static function add_post_meta_boxes() {
 		add_meta_box( 'easy-carousel', esc_html__( 'Easy Carousel Settings', self::$text_domain ), array( __CLASS__, 'post_class_meta_box' ), self::$post_type, 'normal', 'default' );
 	}
 
+	/**
+	 *
+	 * Output meta elements
+	 *
+	 * @param $post
+	 * @return void
+	 *
+	 */
 	public static function post_class_meta_box( $post ) { ?>
 
 		<?php wp_nonce_field( basename( __FILE__ ), self::$nonce_name ); ?>
@@ -71,6 +104,15 @@ class Easy_carousel_admin {
 	<?php }
 
 
+	/**
+	 *
+	 * Hook onto save action
+	 *
+	 * @param $post_id
+	 * @param $post
+	 *
+	 * @return bool
+	 */
 	public static function save_post_class_meta( $post_id, $post ) {
 
 		/* Verify the nonce before proceeding. */
