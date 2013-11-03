@@ -42,16 +42,10 @@ class Easy_carousel_admin {
 		add_action( 'load-post-new.php', array( __CLASS__, 'post_meta_boxes_setup' ) );
 		self::$post_meta = array(
 			array(
-				'name'=>'url',
-				'sanitize'=>'esc_url',
-				'description'=>'URL'
-			),
-			[
 				'name'=>'content_color',
 				'sanitize'=>'sanitize_hex_color',
 				'description'=>'Caption background color'
-			],
-
+			)
 
 		);
 	}

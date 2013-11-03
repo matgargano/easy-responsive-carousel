@@ -2,16 +2,50 @@
 .easy-responsive-carousel a.button.pause {
   font-size: 17px;
 }
+.easy-responsive-carousel {
+  margin: auto;
+}
+.easy-responsive-carousel .carousel-control {
+  background-image: none;
+}
+.easy-responsive-carousel .carousel-control .glyphicon {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: inline-block;
+}
+.easy-responsive-carousel .carousel-control.left span {
+  left: 0.5em;
+}
+.easy-responsive-carousel .carousel-control.right span {
+  right: 0.3em;
+}
+.easy-responsive-carousel .carousel-control:focus {
+  outline: none;
+}
+.easy-responsive-carousel .carousel-indicators li {
+  margin-right: 1em;
+}
+.easy-responsive-carousel .carousel-indicators li:last-child {
+  margin-right: 0;
+}
+.easy-responsive-carousel .carousel-inner {
+  float: left;
+  width: auto;
+}
 .easy-responsive-carousel .item {
   float: left;
 }
-.easy-responsive-carousel .item.active .content {
+.easy-responsive-carousel .item img {
+  width: 100%;
+}
+.easy-responsive-carousel .item .content {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 1em .5em;
+  padding: 1.25em 2.5em;
 }
 .easy-responsive-carousel .controls {
   float: right;

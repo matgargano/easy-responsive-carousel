@@ -3,10 +3,10 @@ Contributors: matstars
 Tags: custom post types, CPT, post, types, post type, order post types
 Requires at least: 3.7.1
 Tested up to: 3.6
-Stable tag: 0.3.1
+Stable tag: 0.4
 License: GPLv2
 
-Adds an Image Carousel post type and shortcode. Note your theme MUST include & enqueue bootstrap 2.3.2+ (including 3+!) - as of right now, this ONLY works with images and they must all be the same size
+Adds an Image Carousel post type and shortcode. Note your theme MUST include & enqueue bootstrap 3+
 
 == Description ==
 
@@ -20,15 +20,27 @@ Adds a shortcode [easy_carousel id=N ] with the required variables:
 
 ...and the optional variables:
 
-- timeout => milliseconds to pause in between slides
-- pause => if set to true - the slideshow will pause on hover; set to false - the carousel does not pause on hover.
-- effect => "slide" or "fade"
-- orderby => what to order the children posts
-- order => direction to order the posts
-- display_mobile => will hide on mobile if true.
+- timeout => milliseconds to pause in between slides (default: 5000)
+- pause => if set to true - the slideshow will pause on hover; set to false - the carousel does not pause on hover. (default: false)
+- effect => "slide" or "fade" (default: none)
+- orderby => what to order the children posts (default: menu_order)
+- order => direction to order the posts (default: asc)
+- mobile => will hide on mobile if true (default: true)
+- caption => show caption of slide, which is the post's content (default: true)
+- caption_opacity => opacity for background of caption (default: 0.8)
+- indicators => show indicator dots on slideshow (default: true)
+- arrows => show arrows on slideshow (default: true)
+
     
 
 == Changelog ==
+
+= 0.4 =
+
+Remove support for Bootstrap < 3
+Add indicators, optional within shortcode
+Add arrows, optional within shortcode, filterable via class on easy_responsive_carousel_left_arrow and easy_responsive_carousel_right_arrow
+Fix for positioning issues and responsive issues
 
 = 0.3 =
 

@@ -2,8 +2,8 @@
 /*
   Plugin Name: Easy Responsive Carousel
   Plugin URI: http://matgargano.com
-  Description: Adds an Image Carousel *Note* your theme MUST include & enqueue bootstrap 2.3.2+ (including 3+!) - as of right now, this ONLY works with images and they must all be the same size
-  Version: 0.3.1
+  Description: Adds an Image Carousel *Note* your theme MUST include & enqueue bootstrap 3+
+  Version: 0.4
   Author: matstars
   Author URI: http://matgargano.com
   License: GPL2
