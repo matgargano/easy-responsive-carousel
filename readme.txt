@@ -35,7 +35,7 @@ Adds a shortcode [easy_carousel id=N ] with the required variables:
 
 == Changelog ==
 
-= 0.4.2 =
+= 0.4.3 =
 
 * Add ability to drag and drop the sort slide functionality from within the parent Easy Carousel post.
 
