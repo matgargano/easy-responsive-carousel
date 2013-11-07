@@ -3,7 +3,7 @@ Contributors: matstars
 Tags: custom post types, CPT, post, types, post type, order post types
 Requires at least: 3.6
 Tested up to: 3.71
-Stable tag: 0.4.2
+Stable tag: 0.4.3
 License: GPLv2
 
 Adds an Image Carousel post type and shortcode. Note your theme MUST include & enqueue bootstrap 3+
