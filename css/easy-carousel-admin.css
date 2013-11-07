@@ -1,0 +1,17 @@
+#slideshow-sortable {
+  list-style-type: none;
+  margin: 2em 0 2em 0;
+  padding: 0;
+  width: 60%;
+}
+#slideshow-sortable li {
+  margin: 0 3px 3px 3px;
+  padding-left: 1.5em;
+  font-size: 1em;
+  height: 18px;
+  border: 1px solid #ccc;
+  background: #ddd;
+  border-radius: 5px;
+  padding: 0.4em;
+  cursor: move;
+}

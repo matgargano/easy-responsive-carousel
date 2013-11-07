@@ -25,7 +25,7 @@ class Easy_carousel {
 	/**
 	 * @var string
 	 */
-	public static $ver = '0.4';
+	public static $ver = '0.4.1';
 
 
 
@@ -42,8 +42,6 @@ class Easy_carousel {
 		add_action( 'wp_footer', array( __CLASS__, 'print_script' ) );
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
-		add_action( 'admin_print_scripts-post-new.php', array( __CLASS__, 'admin_enqueue' ), 11 );
-		add_action( 'admin_print_scripts-post.php', array( __CLASS__, 'admin_enqueue' ), 11 );
 		add_shortcode( self::$shortcode, array( __CLASS__, 'shortcode' ) );
 
 	}
@@ -106,11 +104,11 @@ class Easy_carousel {
 	public static function shortcode( $atts ) {
 
 		/* initialize variables */
-		$id = $timeout = $pause = $effect = $orderby = $order = $mobile = $caption = $caption_opacity = $indicators = $arrows = null;
+		$id = $timeout = $hover_pause = $effect = $orderby = $order = $mobile = $caption = $caption_opacity = $indicators = $arrows = null;
 		extract( shortcode_atts( array(
 			'id' => -1,
 			'timeout' => 5000,
-			'pause' => false,
+			'hover_pause' => false,
 			'effect' => '',
 			'orderby' => 'menu_order',
 			'order' => 'asc',
@@ -129,7 +127,7 @@ class Easy_carousel {
 		if ( $effect ) {
 			$effect = ' ' . $effect;
 		}
-		if ( ! $pause ) {
+		if ( ! $hover_pause ) {
 			$pause_att = ' "pause" : false ';
 		}
 		if ( $id == -1 || !get_post( $id ) ) {
@@ -212,22 +210,7 @@ class Easy_carousel {
 		}
 	}
 
-	/**
-	 *
-	 * Enqueue scripts on backend
-	 *
-	 * @return void
-	 *
-	 */
-	static function admin_enqueue(){
-		global $post_type;
-		if( self::$post_type != $post_type ) return;
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-		wp_enqueue_script( self::$file_name . '-admin', plugins_url('js/' .self::$file_name .'-admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-color-picker' ), self::$ver );
 
-
-	}
 
 
 

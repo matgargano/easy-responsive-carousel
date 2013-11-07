@@ -15,6 +15,16 @@ class Easy_carousel_admin {
 	 */
 	public static $nonce_name = 'easy_carousel';
 
+	/**
+	 * @var string
+	 */
+	public static $ver;
+
+	/**
+	 * @var string
+	 */
+	public static $file_name;
+
 
 	/**
 	 * @var
@@ -38,6 +48,10 @@ class Easy_carousel_admin {
 
 	public static function init(){
 		self::$post_type = Easy_carousel::$post_type;
+		self::$ver = Easy_carousel::$ver;
+		self::$file_name = Easy_carousel::$file_name;
+		add_action( 'admin_print_scripts-post-new.php', array( __CLASS__, 'admin_enqueue' ), 11 );
+		add_action( 'admin_print_scripts-post.php', array( __CLASS__, 'admin_enqueue' ), 11 );
 		add_action( 'load-post.php', array( __CLASS__, 'post_meta_boxes_setup' ) );
 		add_action( 'load-post-new.php', array( __CLASS__, 'post_meta_boxes_setup' ) );
 		self::$post_meta = array(
@@ -148,5 +162,22 @@ class Easy_carousel_admin {
 		return true;
 	}
 
+	/**
+	 *
+	 * Enqueue scripts on backend
+	 *
+	 * @return void
+	 *
+	 */
+	static function admin_enqueue(){
+		global $post_type;
+		if( self::$post_type != $post_type ) return;
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker' );
+		wp_enqueue_script( self::$file_name . '-admin', plugins_url('js/' .self::$file_name .'-admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-color-picker' ), self::$ver );
+		wp_enqueue_style( self::$file_name . '-admin', plugins_url('css/' .self::$file_name .'-admin.css', dirname( __FILE__ ) ), self::$ver );
+
+
+	}
 
 }
