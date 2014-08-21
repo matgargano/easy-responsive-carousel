@@ -7,7 +7,7 @@ function carousel_width($parent) {
     $parent.find('.item').each(function () {
         width = Math.max(width, jQuery(this).width());
     });
-    $parent.css('max-width', width + 'px');
+    //$parent.css('max-width', width + 'px');
     return;
 }
 

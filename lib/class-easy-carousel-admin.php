@@ -59,7 +59,18 @@ class Easy_carousel_admin {
 				'name'=>'content_color',
 				'sanitize'=>'sanitize_hex_color',
 				'description'=>'Caption background color'
-			)
+			),
+			array(
+				'name'=>'opacity',
+				'sanitize'=>'floatval',
+				'description'=>'Opacity'
+			),
+			array(
+				'name'=>'text_color',
+				'sanitize'=>'sanitize_hex_color',
+				'description'=>'Text Color'
+			),
+
 
 		);
 	}
@@ -100,7 +111,11 @@ class Easy_carousel_admin {
 	 *
 	 */
 	public static function post_class_meta_box( $post ) { ?>
-
+		<?php if ( $post->post_parent != '0' ) {
+				remove_meta_box( 'easy-carousel', self::$post_type, 'normal');
+				return;
+			}
+		?>
 		<?php wp_nonce_field( basename( __FILE__ ), self::$nonce_name ); ?>
 		<?php foreach ( self::$post_meta as $meta ) : ?>
 			<p>

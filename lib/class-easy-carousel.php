@@ -156,11 +156,21 @@ class Easy_carousel {
 			$inner_html .= '<div class="item' . $active . '">';
 			$inner_html .= get_the_post_thumbnail( $post->ID, $size = 'full' );
 			if ( $caption && get_the_content() ) {
-				$hex_color = get_post_meta( $post->ID, 'content_color', true );
-				$rgb = hex2rgb( $hex_color );
+				$text_style = '';
+				$background_color = get_post_meta( wp_get_post_parent_id( $post->ID ), 'content_color', true );
+				$opacity = get_post_meta( wp_get_post_parent_id( $post->ID ), 'opacity', true);
+				$text_color = get_post_meta( wp_get_post_parent_id( $post->ID ), 'text_color', true);
+				if ( is_numeric( $opacity ) ) {
+					$caption_opacity = $opacity;
+				}
+				if ( $text_color ) {
+					$text_style = 'color:' . $text_color;
+				}
+
+				$rgb = hex2rgb( $background_color );
 				$color_style = 'rgba(' . $rgb[0] . ',' . $rgb[1] . ',' . $rgb[2] . ', ' . $caption_opacity . ')';
 
-				$inner_html .= '<div class="content" style="background:' . $color_style . ';">';
+				$inner_html .= '<div class="content" style="background:' . $color_style . ';'.$text_style.'">';
 				$inner_html .= get_the_content();
 				$inner_html .= '</div>';
 			}

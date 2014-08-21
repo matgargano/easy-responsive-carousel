@@ -22,6 +22,8 @@ jQuery(function ($) {
     $(document).ready(function ($) {
         if (typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function') {
             $("#content_color").wpColorPicker();
+            $("#text_color").wpColorPicker();
+
         }
     });
 });
