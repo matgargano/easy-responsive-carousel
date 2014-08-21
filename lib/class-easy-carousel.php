@@ -128,7 +128,8 @@ class Easy_carousel {
 			$effect = ' ' . $effect;
 		}
 		if ( ! $hover_pause ) {
-			$pause_att = ' "pause" : false ';
+			$pause_att = ' data-pause="false" ';
+			
 		}
 		if ( $id == -1 || !get_post( $id ) ) {
 			return false;
@@ -137,7 +138,7 @@ class Easy_carousel {
 			return false;
 		}
 
-		$pre_outer_html .= '<div class="easy-responsive-carousel clearfix carousel' . $effect . '" id="carousel-' . static::$incrementer . '" data-ride="carousel">';
+		$pre_outer_html .= '<div class="easy-responsive-carousel clearfix carousel' . $effect . '" id="carousel-' . static::$incrementer . '" data-ride="carousel" '. $pause_att .'>';
 		if ( $indicators ):
 			$pre_outer_html .= '<ol class="carousel-indicators">';
 		endif;
@@ -193,7 +194,7 @@ class Easy_carousel {
 
 		$post_outer_html .= '</div><div class="clearfix"></div>';
 		$post_outer_html .= '<script>';
-		$post_outer_html .= 'jQuery(".carousel#carousel-' . static::$incrementer . '").carousel( { "interval" : ' . $timeout . ', ' . $pause_att . '} );';
+		$post_outer_html .= 'jQuery(".carousel#carousel-' . static::$incrementer . '").carousel( { "interval" : ' . $timeout . '} );';
 		$post_outer_html .= 'carousel_width(jQuery(".carousel#carousel-' . static::$incrementer . '"))';
 		$post_outer_html .= '</script>';
 
