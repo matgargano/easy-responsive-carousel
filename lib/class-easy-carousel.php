@@ -39,7 +39,6 @@ class Easy_carousel {
 	 */
 	public static function init(){
 		add_action( 'init', array( __CLASS__, 'register_post_type' ) );
-		add_action( 'wp_footer', array( __CLASS__, 'print_script' ) );
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
 		add_shortcode( self::$shortcode, array( __CLASS__, 'shortcode' ) );
