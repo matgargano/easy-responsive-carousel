@@ -25,7 +25,7 @@ class Easy_carousel {
 	/**
 	 * @var string
 	 */
-	public static $ver = '0.4.1';
+	public static $ver = '0.5.2';
 
 
 
